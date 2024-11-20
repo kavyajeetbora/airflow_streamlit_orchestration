@@ -2,6 +2,8 @@ from __future__ import annotations
 import pendulum
 from airflow.decorators import dag, task
 from weather_etl import get_weather_dataframe
+from airflow.operators.bash import BashOperator
+import subprocess
 
 
 @dag(
@@ -30,7 +32,23 @@ def tutorial_taskflow_api():
         except Exception as e:
             print("Error:", e)
 
-    ETL()
+    # @task()
+    # def run_app():
+    # bash_command = "/opt/airflow/dags/run_app.sh"
+    # try:
+    #     result = subprocess.run(
+    #         bash_command, shell=True, check=True, text=True, capture_output=True
+    #     )
+    #     print("Output:", result.stdout)  # Print the output of the script
+    # except subprocess.CalledProcessError as e:
+    #     print("Error:", e.stderr)  # Print the error if the script fails
+
+    run_app = BashOperator(
+        task_id="run_app",
+        bash_command="streamlit run /opt/airflow/dags/app.py --server.port 8501 --server.address 0.0.0.0",
+    )
+
+    ETL() >> run_app
 
 
 tutorial_taskflow_api()
