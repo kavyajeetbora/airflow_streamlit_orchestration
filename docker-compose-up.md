@@ -1,3 +1,42 @@
+# What is `docker-compose` ?
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/HUpIoF_conA/0.jpg)](https://www.youtube.com/watch?v=HUpIoF_conA)
+
+There are many images in docker, and in real world application, we want to use different services/images
+
+Why we may want to use serparate services?
+
+<img src="https://raw.githubusercontent.com/paulc4/microservices-demo/master/shopping-system.jpg" height=300/>
+
+Here are some key reasons for using separate services in Docker Compose for your application, summarized in one line each:
+
+1. Modularity: Each service can be developed, tested, and deployed independently, promoting a modular architecture.
+2. Scalability: Services can be scaled independently based on demand, allowing for efficient resource management.
+3. Isolation: Each service runs in its own container, providing isolation and reducing the risk of conflicts between dependencies.
+4. Maintainability: Smaller, focused services are easier to maintain and update without affecting the entire application.
+5. Flexibility: Different services can use different technologies or programming languages, allowing for a polyglot architecture.
+6. Fault Tolerance: If one service fails, it does not necessarily bring down the entire application, improving overall reliability.
+7. Simplified Networking: Docker Compose automatically sets up a network for services to communicate, simplifying inter-service communication.
+8. Environment Consistency: Each service can have its own environment variables and configurations, ensuring consistent behavior across different environments.
+9. Easier Collaboration: Teams can work on different services simultaneously without stepping on each other's toes, enhancing collaboration.
+
+Here is a basic `docker-compose.yaml` file:
+
+```Docker
+version: '2'
+
+services:
+  database:
+    image: postgres
+
+  webserver:
+    image: nginx
+    ports:
+      - "8080:80"
+```
+
+**Note**: ports - "8080:80" means expose the server port 80 to 8080 port
+
 # Understanding `docker compose up`
 
 The `docker compose up` command is used to create and start containers defined in a Docker Compose file (`docker-compose.yml`). Here’s a breakdown of what this command does:

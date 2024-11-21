@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 
 # global variables
-csv_path = r"/opt/airflow/config/data/weather.csv"
+csv_path = r"./opt/airflow/config/data/weather.csv"
 refresh_time = 20
 
 # Streamlit app header

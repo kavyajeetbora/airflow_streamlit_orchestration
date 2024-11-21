@@ -43,12 +43,12 @@ def tutorial_taskflow_api():
     # except subprocess.CalledProcessError as e:
     #     print("Error:", e.stderr)  # Print the error if the script fails
 
-    run_app = BashOperator(
-        task_id="run_app",
-        bash_command="streamlit run /opt/airflow/dags/app.py --server.port 8501 --server.address 0.0.0.0",
-    )
+    # run_app = BashOperator(
+    #     task_id="run_app",
+    #     bash_command="streamlit run /opt/airflow/dags/app.py --server.port 8501 --server.address 0.0.0.0",
+    # )
 
-    ETL() >> run_app
+    ETL()
 
 
 tutorial_taskflow_api()
