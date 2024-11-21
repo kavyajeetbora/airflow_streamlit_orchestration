@@ -293,8 +293,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    # ports:
-    #   - "7751:7751"  # Map Streamlit port to host
+    ports:
+      - "7751:7751"  # Map Streamlit port to host 
+    volumes:
+      - ${AIRFLOW_PROJ_DIR:-.}:/app
+
+    
 
 volumes:
   postgres-db-volume:
