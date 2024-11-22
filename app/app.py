@@ -1,11 +1,9 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from streamlit_autorefresh import st_autorefresh
 
-# global variables
-csv_path = r"..\config\data\weather.csv"
 
 # Streamlit app header
 st.header("Weather for Top 25 Cities in India 🇮🇳", divider="gray")
@@ -55,20 +53,19 @@ def plot_city_temperatures(data):
 
 # update every 5 seconds
 refreshed = st_autorefresh(interval=5 * 1000, key="dataframerefresh")
-
-## Load the data
-# global variables
-csv_path = r"..\config\data\weather.csv"
-
-df = load_data(csv_path)
-
 # Display the last updated time
-current_time = datetime.now().strftime("%Y-%m-%d | %H:%M:%S")
+# Get the current time in the GMT+5:30 timezone
+time_zone = timezone(timedelta(hours=5, minutes=30))
+current_time = datetime.now(time_zone).strftime("%Y-%m-%d | %H:%M:%S")
 update_time = st.markdown(
     f"<p style='font-size: 14px;'>Last updated: {current_time}</p>",
     unsafe_allow_html=True,
 )
+
+## Load the data
+csv_path = r"shared-data/weather.csv"
+df = load_data(csv_path)
+
 # Render the plot in application
-## Plot with the updated data
 fig = plot_city_temperatures(df)
 st.pyplot(fig)

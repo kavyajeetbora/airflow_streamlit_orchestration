@@ -2,15 +2,13 @@ from __future__ import annotations
 import pendulum
 from airflow.decorators import dag, task
 from weather_etl import get_weather_dataframe
-from airflow.operators.bash import BashOperator
-import subprocess
 
 
 @dag(
     dag_id="dag_weather_update_v1",
     schedule=None,
     description="Weather upates for 20 major cities in India",
-    start_date=pendulum.datetime(2024, 11, 11, tz="Asia/Kolkata"),
+    start_date=pendulum.datetime(2024, 11, 23, tz="Asia/Kolkata"),
     catchup=False,
     tags=["weather_updates", "airflow"],
     schedule_interval="*/5 * * * *",  ## Running the DAG at every N Minutes
@@ -26,7 +24,7 @@ def tutorial_taskflow_api():
         #"""
         try:
             df = get_weather_dataframe()
-            export_path = r"/opt/airflow/config/data/weather.csv"
+            export_path = r"/opt/airflow/shared-data/weather.csv"
             df.to_csv(export_path)
 
         except Exception as e:
