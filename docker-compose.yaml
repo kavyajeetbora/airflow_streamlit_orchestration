@@ -49,7 +49,7 @@ x-airflow-common:
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:latest}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.3}
   # build: .
   environment:
     &airflow-common-env
@@ -59,7 +59,7 @@ x-airflow-common:
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
@@ -77,6 +77,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -286,19 +287,13 @@ services:
 
   streamlit:
     build:
-      context: /app  # Update this path
+      context: app
       dockerfile: Dockerfile
-    healthcheck:
-      test: ["CMD", "python", "--version"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     ports:
-      - "7751:7751"  # Map Streamlit port to host 
+      - "7751:7751"
     volumes:
-      - ${AIRFLOW_PROJ_DIR:-.}:/app
-
-    
+      - ./config/data:/app/data
+   
 
 volumes:
   postgres-db-volume:
