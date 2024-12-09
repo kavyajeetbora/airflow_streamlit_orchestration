@@ -2,7 +2,24 @@
 
 This project demonstrates how to orchestrate a geospatial data pipeline using Apache Airflow. The pipeline updates weather data for the top 25 cities in India every 5 minutes.
 
-## Overview
+# Overview
+
+## Pipeline Workflow
+
+1. **Data Loading**: The application loads weather data from a CSV file and metadata from a JSON file.
+
+   - The CSV file contains temperature and location data for various cities.
+   - The JSON file contains export information such as export time and path.
+
+2. **Data Processing**: The data is sorted by temperature to prepare for visualization.
+
+3. **Map Visualization**:
+
+   - A Folium map is created, centered on India.
+   - Each city is represented by a circle marker, with color indicating temperature.
+   - The map updates every 5 seconds to reflect the latest data.
+
+4. **User Interface**: The Streamlit app provides a user-friendly interface with a header and metadata display.
 
 - **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
 - **Folder Structure**:
