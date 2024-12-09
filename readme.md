@@ -1,15 +1,14 @@
 # Geospatial Data Pipeline with Airflow
 
+# Introduction
+
 This project demonstrates how to orchestrate a geospatial data pipeline using Apache Airflow. The pipeline updates weather data for the top 25 cities in India every 5 minutes.
 
 ![Application](https://github.com/user-attachments/assets/6607d5a3-c6a1-44f9-b310-6b3411cdaacd)
 
-# Overview
-
 ## Pipeline Workflow
 
 ![pipeline](https://github.com/user-attachments/assets/86858b44-cb73-4aea-8478-41550620f0fe)
-
 
 1. **Data Loading**: The application loads weather data from a CSV file and metadata from a JSON file.
 
