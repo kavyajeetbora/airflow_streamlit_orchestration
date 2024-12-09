@@ -1,56 +1,66 @@
-# Create Data Pipeline using Airflow
+# Geospatial Data Pipeline with Airflow
 
-The tutorial is based on the following video:
+This project demonstrates how to orchestrate a geospatial data pipeline using Apache Airflow. The pipeline updates weather data for the top 25 cities in India every 5 minutes.
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/q8q3OFFfY6c/0.jpg)](https://www.youtube.com/watch?v=q8q3OFFfY6c)
+## Overview
 
-## Refreshing the streamlit application
+- **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
+- **Folder Structure**:
+  ```
+  app/
+  ├── app.py
+  ├── Dockerfile
+  ├── requirements.txt
+  config/
+  dags/
+  plugins/
+  docker-compose.yaml
+  ```
 
-Here is how we can rerun the streamlit application with a time interval: [link](https://discuss.streamlit.io/t/st-memization-memo-ttl-question/28655/2?u=kavyajeetbora)
+## Getting Started
 
-## Extending the docker image
+### Prerequisites
 
-Using `Docker file` we can extend the default docker image with external python packages and many more
+- Docker
+- Docker Compose
+- Airflow
 
-Create a `Docker file` in the current directory:
+### Setup
 
-```
-FROM apache/airflow:2.10.3
-COPY requirements.txt /requirements.txt
-EXPOSE 8080
-EXPOSE 8503
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r /requirements.txt
-```
+1. **Clone the Repository**:
 
-After creating this, we can use this docker file to create a new docker image with these specify extensions:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-```
-docker build . --tag extending_airflow:latest
-```
+2. **Build the Docker Image**:
 
-## [Running a streamlit application from Docker Image](https://docs.streamlit.io/deploy/tutorials/docker)
+   ```bash
+   docker-compose --build
+   ```
 
-```Docker
-FROM python:3.9-slim
+3. **Run the Application**:
+   ```bash
+   docker-compose up
+   ```
 
-WORKDIR /app
+### Accessing the Application
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+- **Airflow Web UI**: [http://localhost:8080](http://localhost:8080)
+- **Streamlit App**: [http://localhost:7751](http://localhost:7751)
 
-RUN git clone https://github.com/streamlit/streamlit-example.git .
+## Extending the Docker Image
 
-RUN pip3 install -r requirements.txt
+To add additional Python packages, modify the `Dockerfile` in the `app` directory and rebuild the image.
 
-EXPOSE 8501
+## Resources
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+- [Learn Docker in 1 hour](https://youtu.be/pTFZFxd4hOI?si=BNK7WsnZxdXB3bl-)
+- [Airflow Tutorial for Beginners - Full Course in 2 Hours](https://youtu.be/K9AnJ9_ZAXE?si=OdZKGaWbYLgQLeoC)
+- [Airflow Documentation](https://airflow.apache.org/docs/)
+- [Deploying Streamlit using Docker](https://docs.streamlit.io/deploy/tutorials/docker)
 
-ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+## License
 
-```
+This project is licensed under the Apache License, Version 2.0.
