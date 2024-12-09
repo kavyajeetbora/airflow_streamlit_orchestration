@@ -93,8 +93,6 @@ if refreshed >= 0:
     df = load_data(csv_path)
     metadata = get_metadata(json_file_path)
     st.text(metadata)
-    st.dataframe(df)
-
     # Render the plot in application
     fig = plot_city_temperatures(df)
     st.pyplot(fig)
