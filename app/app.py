@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timezone, timedelta
 from streamlit_autorefresh import st_autorefresh
-
+import json
 
 # Streamlit app header
 st.header("Weather for Top 25 Cities in India 🇮🇳", divider="gray")
@@ -11,7 +11,34 @@ st.header("Weather for Top 25 Cities in India 🇮🇳", divider="gray")
 
 def load_data(path):
     df = pd.read_csv(path)
+    df = df.sort_values(by="temp")
     return df
+
+
+def get_metadata(json_file_path):
+    """
+    Reads export information from a JSON file and prints it in a specified format.
+
+    Parameters:
+    - json_file_path (str): The path to the JSON file containing export information.
+    """
+    try:
+        # Read the JSON file
+        with open(json_file_path, "r") as json_file:
+            data = json.load(json_file)
+
+        # Extract export time and export path
+        export_time = data.get("export_time", "N/A")  # Default to 'N/A' if not found
+        export_path = data.get("export_path", "N/A")  # Default to 'N/A' if not found
+
+        # Print the export information
+        metadata = f"Time Exported: {export_time} | Export Path: {export_path}"
+        return metadata
+
+    except FileNotFoundError:
+        print(f"Error: The file {json_file_path} does not exist.")
+    except json.JSONDecodeError:
+        print(f"Error: The file {json_file_path} is not a valid JSON file.")
 
 
 def plot_city_temperatures(data):
@@ -53,19 +80,21 @@ def plot_city_temperatures(data):
 
 # update every 5 seconds
 refreshed = st_autorefresh(interval=5 * 1000, key="dataframerefresh")
-# Display the last updated time
-# Get the current time in the GMT+5:30 timezone
-time_zone = timezone(timedelta(hours=5, minutes=30))
-current_time = datetime.now(time_zone).strftime("%Y-%m-%d | %H:%M:%S")
-update_time = st.markdown(
-    f"<p style='font-size: 14px;'>Last updated: {current_time}</p>",
-    unsafe_allow_html=True,
-)
 
-## Load the data
+# ## Load the data
 csv_path = r"shared-data/weather.csv"
-df = load_data(csv_path)
+json_file_path = r"shared-data/metadata.json"
 
-# Render the plot in application
-fig = plot_city_temperatures(df)
-st.pyplot(fig)
+## Local path for testing the streamlit app
+# local_path = r"config\data\weather.csv"
+# local_json_file = r"config\data\metadata.json"
+
+if refreshed >= 0:
+    df = load_data(csv_path)
+    metadata = get_metadata(json_file_path)
+    st.text(metadata)
+    st.dataframe(df)
+
+    # Render the plot in application
+    fig = plot_city_temperatures(df)
+    st.pyplot(fig)

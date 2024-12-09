@@ -49,6 +49,25 @@ def get_weather_dataframe():
         lambda x: get_weather_data(x["Latitude"], x["Longitude"]), axis=1
     )
     weather_df[COLUMNS] = weather_df["weather_data"].to_list()
-    weather_df.drop("weather_data", axis=1, inplace=True)
+    weather_df.drop(["weather_data", "temp_min", "temp_max"], axis=1, inplace=True)
 
     return weather_df
+
+
+def export_to_json(export_time, export_path, json_file_path):
+    """
+    Exports the given export time and export path to a JSON file.
+
+    Parameters:
+    - export_time (str): The time when the data was exported.
+    - export_path (str): The path where the data was exported.
+    - json_file_path (str): The path where the JSON file will be saved.
+    """
+    # Create a dictionary to hold the data
+    data = {"export_time": export_time, "export_path": export_path}
+
+    # Write the dictionary to a JSON file
+    with open(json_file_path, "w") as json_file:
+        json.dump(data, json_file, indent=4)  # indent for pretty printing
+
+    print(f"Data exported to {json_file_path}")

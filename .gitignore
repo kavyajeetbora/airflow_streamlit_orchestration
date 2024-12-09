@@ -60,3 +60,4 @@ share/python-wheels/
 # Windows specific files
 Thumbs.db
 ehthumbs.db
+logs
