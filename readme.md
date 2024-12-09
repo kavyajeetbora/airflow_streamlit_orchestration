@@ -13,7 +13,7 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
 1. **Data Loading**: The application loads weather data from a CSV file and metadata from a JSON file.
 
    - **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
-   - Store the data in CSV file in a [shared volume](https://docs.docker.com/engine/storage/volumes/) defined in the [docker-compose file](docker-compose.yaml). This will enable the independent images to communicate the data with each other.
+   - Store the data in CSV file in a [shared volume](https://www.baeldung.com/ops/docker-share-volume-multiple-containers) defined in the [docker-compose file](docker-compose.yaml). This will enable the independent images to communicate the data with each other.
 
 2. **Data Processing**: The data is sorted by temperature to prepare for visualization.
 
