@@ -8,8 +8,8 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
 
 1. **Data Loading**: The application loads weather data from a CSV file and metadata from a JSON file.
 
-   - The CSV file contains temperature and location data for various cities.
-   - The JSON file contains export information such as export time and path.
+   - **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
+   - Store the data in CSV file in a [shared volume](https://docs.docker.com/engine/storage/volumes/) defined in the [docker-compose file](docker-compose.yaml). This will enable the independent images to communicate the data with each other.
 
 2. **Data Processing**: The data is sorted by temperature to prepare for visualization.
 
@@ -21,18 +21,18 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
 
 4. **User Interface**: The Streamlit app provides a user-friendly interface with a header and metadata display.
 
-- **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
-- **Folder Structure**:
-  ```
-  app/
-  ├── app.py
-  ├── Dockerfile
-  ├── requirements.txt
-  config/
-  dags/
-  plugins/
-  docker-compose.yaml
-  ```
+5. **Folder Structure**:
+
+   ```
+   app/
+   ├── app.py
+   ├── Dockerfile
+   ├── requirements.txt
+   config/
+   dags/
+   plugins/
+   docker-compose.yaml
+   ```
 
 ## Getting Started
 
@@ -47,7 +47,7 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
 1. **Clone the Repository**:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/kavyajeetbora/airflow_streamlit_orchestration.git
    cd <repository-directory>
    ```
 
