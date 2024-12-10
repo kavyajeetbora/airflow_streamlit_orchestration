@@ -27,16 +27,22 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
 
 5. **Folder Structure**:
 
-   ```
+```
    app/
    ├── app.py
    ├── Dockerfile
    ├── requirements.txt
    config/
    dags/
+   ├── dag1.py
+   ├── dag2.py
+   ├── dag3.py
+   ├── data/
+   │   ├── weather_data.csv
+   │   ├── metadata.json
    plugins/
    docker-compose.yaml
-   ```
+```
 
 ## Getting Started
 

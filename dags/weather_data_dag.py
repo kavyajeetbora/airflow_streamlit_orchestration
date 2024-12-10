@@ -28,14 +28,14 @@ def weather_taskflow_api():
         #"""
         try:
             df = get_weather_dataframe()
-            export_path = r"/opt/airflow/shared-data/weather.csv"
+            export_path = r"/opt/airflow/dags/data/weather.csv"
 
             export_time = pendulum.now("Asia/Kolkata")
             # Convert to string in a specific format
             export_time_str = export_time.format("YYYY-MM-DD HH:mm:ss")
             df.to_csv(export_path)
 
-            json_file_path = r"/opt/airflow/shared-data/metadata.json"
+            json_file_path = r"/opt/airflow/dags/data/metadata.json"
             export_to_json(export_time_str, export_path, json_file_path)
 
             logger.info(
@@ -43,7 +43,7 @@ def weather_taskflow_api():
             )
 
         except Exception as e:
-            logger.info("Error:" + e)
+            logger.info("Error:" + str(e))
 
     ETL()
 

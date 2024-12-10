@@ -60,7 +60,7 @@ def get_metadata(json_file_path):
         export_path = data.get("export_path", "N/A")  # Default to 'N/A' if not found
 
         # Print the export information
-        metadata = f"Time Exported: {export_time} | Export Path: {export_path}"
+        metadata = f"Time Exported: {export_time}"
         return metadata
 
     except FileNotFoundError:

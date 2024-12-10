@@ -61,3 +61,4 @@ share/python-wheels/
 Thumbs.db
 ehthumbs.db
 logs/*
+development
