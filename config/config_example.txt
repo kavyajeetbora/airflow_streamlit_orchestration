@@ -1,0 +1,2 @@
+[KEYS]
+api_key = {YOUR_WEATHER_API_KEY}
