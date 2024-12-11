@@ -1,56 +1,49 @@
 # Geospatial Data Pipeline Orchestration using Airflow
 
-# Introduction
+This project demonstrates a simple geospatial data pipeline orchestration using Apache Airflow, designed to update weather data for around 30 cities in India every 5 minutes. It serves as a practical introduction to the orchestration of geospatial data pipelines, where you will learn essential concepts related to Docker, Docker Compose, Airflow, and microservices.
 
-This project demonstrates how to orchestrate a geospatial data pipeline using Apache Airflow. The pipeline updates weather data for the top 25 cities in India every 5 minutes.
-
-![Application](https://github.com/user-attachments/assets/6607d5a3-c6a1-44f9-b310-6b3411cdaacd)
+<img src="https://github.com/user-attachments/assets/6607d5a3-c6a1-44f9-b310-6b3411cdaacd" height=400/>
 
 ## Pipeline Workflow
 
-![pipeline](https://github.com/user-attachments/assets/86858b44-cb73-4aea-8478-41550620f0fe)
+<img src="https://github.com/user-attachments/assets/86858b44-cb73-4aea-8478-41550620f0fe" height=300/>
 
-1. **Data Loading**: The application loads weather data from a CSV file and metadata from a JSON file.
+1. **Data Acquisition**: The pipeline fetches weather data from an external API and processes it before exporting the results to a CSV file. This is achieved by creating a Directed Acyclic Graph (DAG) in Apache Airflow.
 
-   - **Data Source**: Weather data is fetched from the [OpenWeatherMap API](https://openweathermap.org/api).
-   - Store the data in CSV file in a [shared volume](https://www.baeldung.com/ops/docker-share-volume-multiple-containers) defined in the [docker-compose file](docker-compose.yaml). This will enable the independent images to communicate the data with each other.
+2. **Scheduled Updates**: The DAG is configured to run every 5 minutes, ensuring that the weather data remains up-to-date and reflects the latest conditions.
 
-2. **Data Processing**: The data is sorted by temperature to prepare for visualization.
+3. **Interactive Map Visualization**: A Streamlit application is developed to display an interactive map that visualizes the weather data for various locations across India. The Folium library is utilized to create this map, with each city represented by markers that indicate temperature.
 
-3. **Map Visualization**:
-
-   - A Folium map is created, centered on India.
-   - Each city is represented by a circle marker, with color indicating temperature.
-   - The map updates every 5 seconds to reflect the latest data.
-
-4. **User Interface**: The Streamlit app provides a user-friendly interface with a header and metadata display.
+4. **Real-Time Updates**: The Streamlit app is set to refresh every 5 minutes, allowing users to view the most current weather information without needing to manually reload the page.
 
 5. **Folder Structure**:
 
-```
-   app/
-   ├── app.py
-   ├── Dockerfile
-   ├── requirements.txt
-   config/
-   dags/
-   ├── dag1.py
-   ├── dag2.py
-   ├── dag3.py
-   ├── data/
-   │   ├── weather_data.csv
-   │   ├── metadata.json
-   plugins/
-   docker-compose.yaml
-```
+   ```
+      app/
+      ├── app.py
+      ├── Dockerfile
+      ├── requirements.txt
+      config/
+      dags/
+      ├── dag1.py
+      ├── dag2.py
+      plugins/
+      docker-compose.yaml
+   ```
+   The folder structure organizes the project into distinct directories:
+   
+   - **`app/`**: Contains the main application files, including the Streamlit app and Docker configuration.
+   - **`config/`**: Holds configuration files.
+   - **`dags/`**: Contains the Airflow Directed Acyclic Graphs (DAGs) for task orchestration.
+   - **`plugins/`**: For any custom Airflow plugins.
+   - **`docker-compose.yaml`**: Facilitates the orchestration of the entire application using Docker.
+
 
 ## Getting Started
 
 ### Prerequisites
 
-- Docker
-- Docker Compose
-- Airflow
+- Docker: Before setting up, make sure docker is installed in your system. Otherwise refer to [Docker Installation](https://docs.docker.com/engine/install/)
 
 ### Setup
 
@@ -60,16 +53,21 @@ This project demonstrates how to orchestrate a geospatial data pipeline using Ap
    git clone https://github.com/kavyajeetbora/airflow_streamlit_orchestration.git
    cd <repository-directory>
    ```
-
-2. **Build the Docker Image**:
+2. **Setting Up Weather API Key**:
+   
+   - **Sign Up**: Create an account on the [OpenWeatherMap](https://openweathermap.org/) website to obtain your API key.
+   - **Generate API Key**: After logging in, navigate to the API section and generate a new API key for your application.
+   - **Configure Your Application**: In the `config/` folder, refer to the `config/config_example.txt` file for the format to enter your API key and create your own configuration file within the `config` folder (`config/config.cfg`).
+   
+3. **Build the Docker Image**:
 
    ```bash
-   docker-compose --build
+   docker-compose airflow-init
    ```
 
-3. **Run the Application**:
+4. **Run the Application in detached mode**:
    ```bash
-   docker-compose up
+   docker-compose up -d
    ```
 
 ### Accessing the Application
@@ -87,6 +85,8 @@ To add additional Python packages, modify the `Dockerfile` in the `app` director
 - [Airflow Tutorial for Beginners - Full Course in 2 Hours](https://youtu.be/K9AnJ9_ZAXE?si=OdZKGaWbYLgQLeoC)
 - [Airflow Documentation](https://airflow.apache.org/docs/)
 - [Deploying Streamlit using Docker](https://docs.streamlit.io/deploy/tutorials/docker)
+- [Introduction to docker compose ?](docs/docker-compose-up.md)
+- [Why Docker Compose ?](docs/docker-compose-file.md)
 
 ## License
 
