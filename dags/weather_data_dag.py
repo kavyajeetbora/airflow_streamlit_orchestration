@@ -28,14 +28,14 @@ def weather_taskflow_api():
         #"""
         try:
             df = get_weather_dataframe()
-            export_path = r"/opt/airflow/dags/data/weather.csv"
+            export_path = r"/opt/airflow/dags/weather.csv"
 
             export_time = pendulum.now("Asia/Kolkata")
             # Convert to string in a specific format
             export_time_str = export_time.format("YYYY-MM-DD HH:mm:ss")
             df.to_csv(export_path)
 
-            json_file_path = r"/opt/airflow/dags/data/metadata.json"
+            json_file_path = r"/opt/airflow/dags/metadata.json"
             export_to_json(export_time_str, export_path, json_file_path)
 
             logger.info(
